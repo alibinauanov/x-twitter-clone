@@ -2,6 +2,7 @@ import Image from "@/components/Image";
 import PostInfo from "./PostInfo";
 import PostInteraction from "./PostInteraction";
 import { imagekit } from "@/utils";
+import Video from "./Video";
 
 interface FileDetailsResponse {
     width: number;
@@ -62,7 +63,19 @@ const Post = async () => {
                         delectus deleniti asperiores eveniet tempore explicabo in deserunt nostrum!
                     </p>
                     {/* <Image path="general/post.jpeg" alt="" w={600} h={600} /> */}
-                    {fileDetails && (<Image path={fileDetails.url} alt="" w={fileDetails.width} h={fileDetails.height} className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""} />)}
+                    {fileDetails && fileDetails.fileType === "image" ? (
+                        <Image 
+                            path={fileDetails.url} 
+                            alt="" 
+                            w={fileDetails.width} 
+                            h={fileDetails.height} 
+                            className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""}
+                        />
+                    ) : (<Video
+                            path={fileDetails.filePath} 
+                            className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""} 
+                        />
+                    )}
                     <PostInteraction />
                 </div>
             </div>
