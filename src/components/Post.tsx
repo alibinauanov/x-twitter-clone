@@ -3,6 +3,7 @@ import PostInfo from "./PostInfo";
 import PostInteraction from "./PostInteraction";
 import { imagekit } from "@/utils";
 import Video from "./Video";
+import Link from "next/link";
 
 interface FileDetailsResponse {
     width: number;
@@ -13,7 +14,7 @@ interface FileDetailsResponse {
     customMetadata?: { sensitive: boolean };
 }
 
-const Post = async () => {
+const Post = async ({ type }: { type?: "status" | "comment" }) => {
     const getFileDetails = async (fileId: string): Promise<FileDetailsResponse> => {
         return new Promise((resolve, reject) => {
             imagekit.getFileDetails(fileId, function(error, result) {
@@ -44,24 +45,32 @@ const Post = async () => {
                 </svg>
                 <span>alibucci reposted</span>
             </div>
-            <div className="flex gap-4">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden">
+            {/* <div className="flex gap-4"> */}
+            <div className={`flex gap-4 ${type==="status" && "flex-col"}`}>
+                <div className={`${type==="status" && "hidden"} relative w-10 h-10 rounded-full overflow-hidden`}>
                     <Image path="general/footballMe.jpg" alt="" w={100} h={100} tr={true} />
                 </div>
                 <div className="flex-1 flex flex-col gap-2">
-                    <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <h1 className="text-md font-bold">alibucci</h1>
-                            <span className="text-textGray">@alibucci</span>
-                            <span className="text-textGray">1 day ago</span>
-                        </div>
+                    <div className="w-full flex justify-between">
+                        <Link href={`/alibucci`} className="flex gap-4">
+                            <div className={`${type!=="status" && "hidden"} relative w-10 h-10 rounded-full overflow-hidden`}>
+                                <Image path="general/footballMe.jpg" alt="" w={100} h={100} tr={true} />
+                            </div>
+                            <div className={`flex items-center gap-2 flex-wrap ${type==="status" && "flex-col gap-0 !items-start"}`}>
+                                <h1 className="text-md font-bold">alibucci</h1>
+                                <span className={`text-textGray ${type==="status" && "text-sm"}`}>@alibucci</span>
+                                {type!=="status" && <span className="text-textGray">1 day ago</span>}
+                            </div>
+                        </Link>
                         <PostInfo />
                     </div>
-                    <p className="">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, quis eos 
-                        error nesciunt amet molestiae? Quod, fugit, dolorem nisi corrupti, odio 
-                        delectus deleniti asperiores eveniet tempore explicabo in deserunt nostrum!
-                    </p>
+                    <Link href={`/alibucci/status/123`} className="text-textGray">
+                        <p className={`${type==="status" && "text-lg"}`}>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, quis eos 
+                            error nesciunt amet molestiae? Quod, fugit, dolorem nisi corrupti, odio 
+                            delectus deleniti asperiores eveniet tempore explicabo in deserunt nostrum!
+                        </p>
+                    </Link>
                     {/* <Image path="general/post.jpeg" alt="" w={600} h={600} /> */}
                     {fileDetails && fileDetails.fileType === "image" ? (
                         <Image 
@@ -76,6 +85,7 @@ const Post = async () => {
                             className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""} 
                         />
                     )}
+                    {type === "status" && <span className="text-textGray">8:41 PM, Dec 5, 2024</span>}
                     <PostInteraction />
                 </div>
             </div>

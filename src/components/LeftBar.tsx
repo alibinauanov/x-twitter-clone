@@ -54,7 +54,7 @@ const menuList = [
     {
         id: 9,
         name: "Profile",
-        link: "/",
+        link: "/alibucci",
         icon: "profile.svg",
     },
     {
@@ -70,7 +70,7 @@ const LeftBar = () => {
         <div className="h-screen sticky top-0 flex flex-col justify-between pt-2 pb-6 w-16 sm:w-20 lg:w-64 ml-2 sm:ml-4 lg:ml-12">
             <div className="flex flex-col gap-2 sm:gap-3 lg:gap-4 text-base sm:text-lg items-start">
                 <Link href="/" className="p-2 rounded-full hover:bg-[#181818]">
-                    <Image path="icons/logo.svg" alt="Logo" w={24} h={24} />
+                    <Image path="general/logo.png" alt="Logo" w={48} h={48} />
                 </Link>
 
                 <div className="flex flex-col gap-1 sm:gap-2 w-full">
@@ -91,15 +91,15 @@ const LeftBar = () => {
                     ))}
                 </div>
 
-                <Link href="/" className="bg-white text-black rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center lg:hidden ml-0">
+                <Link href="/compose/post" className="bg-white text-black rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center lg:hidden ml-0">
                     <Image path="icons/post.svg" alt="new post" w={24} h={24} />
                 </Link>
-                <Link href="/" className="hidden lg:flex bg-white text-black rounded-full font-bold py-2 px-8 w-full max-w-[180px] items-center justify-center ml-0">
+                <Link href="/compose/post" className="hidden lg:flex bg-white text-black rounded-full font-bold py-2 px-8 w-full max-w-[180px] items-center justify-center ml-0">
                     Post
                 </Link>
             </div>
 
-            <div className="flex items-center justify-between w-full">
+            <Link href="/alibucci" className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-1 sm:gap-2">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 aspect-square relative rounded-full overflow-hidden">
                         <Image path="/general/footballMe.jpg" alt="alibucci" w={100} h={100} tr={true} />
@@ -110,7 +110,7 @@ const LeftBar = () => {
                     </div>
                 </div>
                 <div className="hidden lg:block cursor-pointer font-bold px-4">...</div>
-            </div>
+            </Link>
         </div>
     )
 }
