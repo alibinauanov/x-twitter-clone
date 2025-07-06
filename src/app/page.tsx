@@ -1,8 +1,16 @@
 import Share from '@/components/Share';
 import Feed from '@/components/Feed';
 import Link from 'next/link';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-const Homepage = () => {
+const Homepage = async () => {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    redirect('/sign-in');
+  }
+
   return (
     <div className=''>
       <div className='px-4 pt-4 flex justify-between text-textGray font-bold border-b-[1px] border-borderGray'>

@@ -26,16 +26,25 @@ model User {
   cover       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  clerkId     String?  @unique
 
   // RELATIONS
   posts Post[]
-
+  comments Comment[]
   likes Like[]
-
   saves SavedPosts[]
-
+  
   followers  Follow[] @relation("UserFollowers")
   followings Follow[] @relation("UserFollowings")
+  
+  sentFollowRequests     FollowRequest[] @relation("FollowRequestSender")
+  receivedFollowRequests FollowRequest[] @relation("FollowRequestReceiver")
+  
+  blocks    Block[] @relation("BlockSender")
+  blockedBy Block[] @relation("BlockReceiver")
+  
+  stories   Story[]
+  notifications Notification[]
 }
 
 model Post {
@@ -61,8 +70,21 @@ model Post {
   comments     Post[] @relation("PostComments")
 
   likes Like[]
-
   saves SavedPosts[]
+  directComments Comment[]
+}
+
+model Comment {
+  id   String @id @default(cuid())
+  desc String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
 }
 
 model Like {
@@ -99,4 +121,53 @@ model Follow {
 
   follower  User @relation("UserFollowers", fields: [followerId], references: [id])
   following User @relation("UserFollowings", fields: [followingId], references: [id])
+  
+  @@unique([followerId, followingId])
+}
+
+model FollowRequest {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  sender   User   @relation("FollowRequestSender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId String
+
+  receiver   User   @relation("FollowRequestReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId String
+
+  @@unique([senderId, receiverId])
+}
+
+model Block {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  blocker   User   @relation("BlockSender", fields: [blockerId], references: [id], onDelete: Cascade)
+  blockerId String
+
+  blocked   User   @relation("BlockReceiver", fields: [blockedId], references: [id], onDelete: Cascade)
+  blockedId String
+
+  @@unique([blockerId, blockedId])
+}
+
+model Story {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  img String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model Notification {
+  id String @id @default(cuid())
+  type String // "like", "comment", "follow", "followRequest"
+  message String
+  read Boolean @default(false)
+  createdAt DateTime @default(now())
+  
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }

@@ -9,13 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/elements": "^0.23.37",
+    "@clerk/nextjs": "^6.23.3",
+    "@hookform/resolvers": "^5.1.1",
     "@prisma/client": "^6.11.0",
+    "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query-devtools": "^5.81.5",
+    "formidable": "^3.5.4",
     "imagekit": "^6.0.0",
     "imagekitio-next": "^1.0.1",
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "ts-node": "^10.9.2"
+    "react-hook-form": "^7.60.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "svix": "^1.68.0",
+    "ts-node": "^10.9.2",
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
