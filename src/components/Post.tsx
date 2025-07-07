@@ -87,7 +87,7 @@ const Post = ({ post, type }: PostProps) => {
           </Link>
           
           {/* Media content */}
-          {post.img && (
+          {post.img && post.img.trim() && (
             <div className="rounded-xl overflow-hidden border border-borderGray">
               <NextImage 
                 src={post.img} 
@@ -95,11 +95,12 @@ const Post = ({ post, type }: PostProps) => {
                 width={600} 
                 height={400} 
                 className="w-full h-auto object-cover max-h-96"
+                loading="lazy"
               />
             </div>
           )}
           
-          {post.video && (
+          {post.video && post.video.trim() && (
             <div className="rounded-xl overflow-hidden border border-borderGray">
               <Video path={post.video} />
             </div>

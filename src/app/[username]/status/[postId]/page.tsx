@@ -63,7 +63,7 @@ const StatusPage = () => {
     if (!post) return <div className="p-4">Post not found</div>;
 
     return (
-        <div className="bg-black text-white min-h-screen overflow-hidden">
+        <div className="bg-black text-white min-h-screen">
             <div className="flex items-center gap-8 sticky top-0 backdrop-blur-md p-4 z-10 bg-[#00000084]">
                 <Link href="/">
                     <Image path="icons/back.svg" alt="back" w={24} h={24} />
@@ -72,8 +72,8 @@ const StatusPage = () => {
             </div>
             
             {/* Main Post */}
-            <div className="border-b border-borderGray p-4 max-w-full">
-                <div className="flex items-start gap-3 max-w-full">
+            <div className="border-b border-borderGray p-4">
+                <div className="flex items-start gap-3">
                     <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
                         <Image 
                             path={post.user.img || "general/footballMe.jpg"} 
@@ -84,7 +84,7 @@ const StatusPage = () => {
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <div className="flex-1 min-w-0 max-w-full overflow-hidden">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                         <div className="flex items-center gap-2">
                             <Link href={`/${post.user.username}`} className="font-bold hover:underline">
                                 {post.user.displayName || post.user.username}
@@ -93,22 +93,23 @@ const StatusPage = () => {
                                 @{post.user.username}
                             </Link>
                         </div>
-                        <div className="mt-2 max-w-full">
+                        <div className="mt-2">
                             <p className="text-white mb-3">{post.desc}</p>
-                            {post.img && (
-                                <div className="mb-3 rounded-2xl overflow-hidden border border-borderGray max-w-lg">
+                            {post.img && post.img.trim() && (
+                                <div className="mb-3 rounded-xl overflow-hidden border border-borderGray max-w-full">
                                     <NextImage 
                                         src={post.img} 
                                         alt="Post image" 
-                                        width={500}
-                                        height={300}
-                                        className="w-full h-auto object-cover max-h-80"
+                                        width={600}
+                                        height={400}
+                                        className="w-full h-auto object-cover max-h-96"
+                                        priority
                                     />
                                 </div>
                             )}
-                            {post.video && (
-                                <div className="mb-3 rounded-xl overflow-hidden">
-                                    <video className="w-full h-auto" controls>
+                            {post.video && post.video.trim() && (
+                                <div className="mb-3 rounded-xl overflow-hidden border border-borderGray">
+                                    <video className="w-full h-auto max-h-96" controls>
                                         <source src={post.video} type="video/mp4" />
                                     </video>
                                 </div>
