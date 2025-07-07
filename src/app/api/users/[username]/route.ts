@@ -33,7 +33,10 @@ async function ensureUserExists(userId: string) {
   }
 }
 
-export async function GET(request: NextRequest, { params }: { params: { username: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ username: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -43,7 +46,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
     // Ensure user exists in database
     await ensureUserExists(userId);
 
-    const { username } = params;
+    const { username } = await params;
 
     // Get user by username
     const user = await prisma.user.findUnique({

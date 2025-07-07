@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 
-const UploadForm = ({ onUpload }: { onUpload: (result: any) => void }) => {
+interface UploadResult {
+  url: string;
+  fileId: string;
+  name: string;
+  filePath: string;
+}
+
+interface UploadFormProps {
+  onUpload: (result: UploadResult) => void;
+}
+
+const UploadForm = ({ onUpload }: UploadFormProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -26,8 +37,9 @@ const UploadForm = ({ onUpload }: { onUpload: (result: any) => void }) => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Upload failed");
       onUpload(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Upload failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -24,7 +24,7 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType>({
   notifications: [],
   unreadCount: 0,
-  markAsRead: (_id: string) => {},
+  markAsRead: () => {},
   markAllAsRead: () => {},
   clearNotifications: () => {},
 });

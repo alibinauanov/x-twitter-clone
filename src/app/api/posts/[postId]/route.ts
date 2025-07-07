@@ -2,14 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/prisma';
 
-export async function GET(request: NextRequest, { params }: { params: { username: string, postId: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ postId: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { postId } = params;
+    const { postId } = await params;
 
     // Get post with comments
     const post = await prisma.post.findUnique({

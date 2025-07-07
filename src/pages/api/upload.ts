@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { imagekit } from "@/utils";
+import formidable from "formidable";
+import fs from "fs";
 
 export const config = {
   api: {
@@ -13,23 +15,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   // Parse multipart form data
-  const formidable = require("formidable");
   const form = new formidable.IncomingForm();
 
-  form.parse(req, async (err: any, fields: any, files: any) => {
+  form.parse(req, async (err: Error | null, fields: formidable.Fields, files: formidable.Files) => {
     if (err) {
       return res.status(500).json({ message: "Error parsing form data" });
     }
-    const file = files.file;
+    
+    const file = Array.isArray(files.file) ? files.file[0] : files.file;
     if (!file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-    const fs = require("fs");
+    
     const fileBuffer = fs.readFileSync(file.filepath);
     try {
       const result = await imagekit.upload({
         file: fileBuffer,
-        fileName: file.originalFilename,
+        fileName: file.originalFilename || "upload",
       });
       return res.status(200).json(result);
     } catch (error) {
