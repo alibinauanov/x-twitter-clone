@@ -1,5 +1,7 @@
 # X (Twitter) Clone - Full Stack App
 
+### [Deployed App](https://x-twitter-clone-production.up.railway.app/)
+
 A complete Twitter/X clone built with Next.js 15, featuring real-time notifications, and all essential social media functionalities.
 
 ## Features
@@ -27,6 +29,7 @@ A complete Twitter/X clone built with Next.js 15, featuring real-time notificati
 - **Next.js API Routes** - Server-side API endpoints
 - **Prisma ORM** - Database management and queries
 - **MySQL** - Primary database (with Docker support)
+- **PostgreSQL** - Database for deployment in Railway
 - **Docker** - Containerized database and development environment
 - **Socket.io** - Real-time server
 - **Server Actions** - Modern Next.js server-side operations
